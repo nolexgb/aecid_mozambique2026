@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mapa de Proyectos Activos AECID Mozambique</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">AECID Mozambique</p>
+      <h1>Mapa de Proyectos Activos</h1>
+      <p class="subtitle">28 proyectos activos · 6 provincias + ámbito nacional · Actualizado mayo 2026</p>
+    </div>
+  </header>
+
+  <main>
+    <aside class="panel">
+      <h2>Resumen ejecutivo</h2>
+      <div class="stat"><strong>28</strong><span>Proyectos activos</span></div>
+      <div class="stat"><strong>6</strong><span>Provincias + ámbito nacional</span></div>
+      <div class="stat"><strong>2021–2026</strong><span>Convocatorias activas</span></div>
+
+      <hr />
+
+      <h3>Modalidades</h3>
+      <ul class="legend">
+        <li><span class="dot bilateral"></span>Bilateral</li>
+        <li><span class="dot ong"></span>Convocatoria ONGD</li>
+        <li><span class="dot convenio"></span>Convenio</li>
+        <li><span class="dot innovacion"></span>Innovación</li>
+      </ul>
+
+      <p class="note">
+        Haz clic sobre cada provincia para consultar los proyectos desplegables.
+      </p>
+    </aside>
+
+    <section id="map"></section>
+  </main>
+
+  <footer>
+    <span>Fuente: Proyectos Activos Mozambique AECID · Mayo 2026</span>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
