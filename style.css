@@ -34,8 +34,6 @@ body {
   flex-direction: column;
 }
 
-/* CABECERA */
-
 .top-header {
   height: 96px;
   flex: 0 0 96px;
@@ -104,8 +102,6 @@ body {
   font-size: 15px;
 }
 
-/* ESTRUCTURA PRINCIPAL */
-
 .layout {
   display: grid;
   grid-template-columns: 370px minmax(0, 1fr);
@@ -133,8 +129,6 @@ main {
   overflow: hidden;
 }
 
-/* MAPA */
-
 #map {
   display: block;
   width: 100%;
@@ -147,8 +141,6 @@ main {
   width: 100% !important;
   height: 100% !important;
 }
-
-/* KPIS */
 
 .kpi-grid {
   display: grid;
@@ -192,12 +184,6 @@ main {
   font-size: 13px;
   line-height: 1.35;
 }
-
-.kpi-label span {
-  font-size: 12px;
-}
-
-/* PANELES */
 
 .panel,
 .info-box {
@@ -291,8 +277,6 @@ main {
   border-radius: 999px;
 }
 
-/* INFO */
-
 .info-box {
   border-color: #fecaca;
   background: #fff7f7;
@@ -329,8 +313,6 @@ main {
   height: auto;
   object-fit: contain;
 }
-
-/* POPUPS */
 
 .leaflet-popup-content-wrapper {
   border-radius: 18px;
@@ -432,23 +414,44 @@ main {
 @media (max-width: 1100px) {
   html,
   body {
-    overflow: auto;
+    height: auto;
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  body {
+    display: block;
   }
 
   .top-header {
     height: auto;
-    flex: 0 0 auto;
+    flex: none;
     align-items: flex-start;
     flex-direction: column;
+    gap: 18px;
+    padding: 18px;
+  }
+
+  .institutional {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 16px;
   }
 
   .header-title {
-    text-align: left;
+    width: 100%;
     min-width: 0;
+    text-align: left;
+  }
+
+  .header-title h1 {
+    font-size: 34px;
   }
 
   .layout {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     height: auto;
     overflow: visible;
@@ -457,16 +460,20 @@ main {
   .sidebar {
     width: 100%;
     height: auto;
+    max-height: none;
     border-right: none;
     border-bottom: 1px solid var(--line);
+    overflow: visible;
   }
 
   main {
+    width: 100%;
     height: 72vh;
     min-height: 560px;
   }
 
   #map {
+    width: 100%;
     height: 72vh;
     min-height: 560px;
   }
@@ -474,25 +481,46 @@ main {
 
 @media (max-width: 700px) {
   .top-header {
-    padding: 16px;
-  }
-
-  .institutional {
-    flex-wrap: wrap;
+    padding: 14px;
     gap: 14px;
   }
 
+  .institutional {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 12px;
+  }
+
   .logo-gob {
-    height: 44px;
+    grid-column: 1 / -1;
+    height: auto;
+    max-height: 48px;
     max-width: 100%;
   }
 
   .logo-aecid {
     height: 42px;
+    max-width: 140px;
   }
 
   .logo-coop {
     height: 34px;
+    max-width: 140px;
+  }
+
+  .eyebrow {
+    font-size: 10px;
+    line-height: 1.2;
+  }
+
+  .header-title h1 {
+    font-size: 28px;
+    line-height: 1.05;
+  }
+
+  .header-title p {
+    font-size: 13px;
   }
 
   .sidebar {
@@ -500,10 +528,100 @@ main {
   }
 
   .kpi-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .kpi {
+    min-height: 96px;
+    padding: 14px 12px;
+  }
+
+  .kpi-value {
+    font-size: 22px;
+  }
+
+  .kpi-label {
+    font-size: 12px;
+  }
+
+  .panel,
+  .info-box {
+    margin-top: 14px;
+    padding: 14px;
+  }
+
+  .panel h2 {
+    font-size: 16px;
+  }
+
+  .filter {
+    min-height: 44px;
+    font-size: 13px;
+  }
+
+  .credits {
+    padding: 14px 0 0;
+  }
+
+  main {
+    height: 76vh;
+    min-height: 520px;
+  }
+
+  #map {
+    height: 76vh;
+    min-height: 520px;
+  }
+
+  .leaflet-popup-content {
+    width: 290px !important;
+  }
+
+  .popup-card {
+    padding: 14px;
+  }
+
+  .popup-header h2 {
+    font-size: 18px;
+  }
+
+  .project summary,
+  .project-body {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  .top-header {
+    padding: 12px;
+  }
+
+  .institutional {
+    grid-template-columns: 1fr;
+  }
+
+  .logo-gob {
+    max-height: 44px;
+  }
+
+  .logo-aecid {
+    height: 38px;
+  }
+
+  .logo-coop {
+    height: 32px;
+  }
+
+  .header-title h1 {
+    font-size: 24px;
+  }
+
+  .kpi-grid {
     grid-template-columns: 1fr;
   }
 
   .kpi {
+    min-height: 82px;
     border-right: none !important;
     border-bottom: 1px solid var(--line) !important;
   }
@@ -512,17 +630,13 @@ main {
     border-bottom: none !important;
   }
 
-  main {
-    height: 75vh;
-    min-height: 500px;
-  }
-
+  main,
   #map {
-    height: 75vh;
+    height: 78vh;
     min-height: 500px;
   }
 
   .leaflet-popup-content {
-    width: 300px !important;
+    width: 260px !important;
   }
 }
