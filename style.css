@@ -10,7 +10,7 @@
   --line: #e5e7eb;
   --bg: #f5f7fa;
   --white: #ffffff;
-  --shadow: 0 16px 40px rgba(15, 23, 42, 0.12);
+  --shadow: 0 16px 40px rgba(15, 23, 42, 0.14);
 }
 
 * {
@@ -89,7 +89,7 @@ body {
 
 .layout {
   display: grid;
-  grid-template-columns: 360px 1fr;
+  grid-template-columns: 370px 1fr;
   min-height: calc(100vh - 96px);
 }
 
@@ -148,7 +148,8 @@ body {
   font-size: 12px;
 }
 
-.panel {
+.panel,
+.info-box {
   margin-top: 18px;
   padding: 16px;
   border: 1px solid var(--line);
@@ -199,6 +200,20 @@ body {
   flex: 0 0 auto;
 }
 
+.all {
+  background: linear-gradient(
+    135deg,
+    #2563eb 0%,
+    #2563eb 25%,
+    #f97316 25%,
+    #f97316 50%,
+    #16a34a 50%,
+    #16a34a 75%,
+    #8e24aa 75%,
+    #8e24aa 100%
+  );
+}
+
 .bilateral {
   background: var(--blue);
 }
@@ -219,14 +234,14 @@ body {
   margin-left: auto;
   color: var(--muted);
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 800;
+  background: #f3f4f6;
+  padding: 3px 8px;
+  border-radius: 999px;
 }
 
 .info-box {
-  margin-top: 18px;
-  padding: 16px;
-  border: 1px solid #fecaca;
-  border-radius: 16px;
+  border-color: #fecaca;
   background: #fff7f7;
 }
 
@@ -273,15 +288,13 @@ main {
   min-height: 680px;
 }
 
-/* Leaflet institutional popup */
-
 .leaflet-popup-content-wrapper {
   border-radius: 18px;
   box-shadow: var(--shadow);
 }
 
 .leaflet-popup-content {
-  width: 380px !important;
+  width: 390px !important;
   margin: 0;
 }
 
@@ -369,8 +382,6 @@ main {
   font-size: 11px;
   font-weight: 800;
 }
-
-/* Responsive */
 
 @media (max-width: 1100px) {
   .top-header {
