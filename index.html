@@ -1,54 +1,290 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mapa de Proyectos Activos AECID Mozambique</title>
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="style.css" />
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Mapa de Proyectos AECID Mozambique</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
-  <header class="topbar">
-    <div>
-      <p class="eyebrow">AECID Mozambique</p>
-      <h1>Mapa de Proyectos Activos</h1>
-      <p class="subtitle">28 proyectos activos · 6 provincias + ámbito nacional · Actualizado mayo 2026</p>
-    </div>
-  </header>
 
-  <main>
-    <aside class="panel">
-      <h2>Resumen ejecutivo</h2>
-      <div class="stat"><strong>28</strong><span>Proyectos activos</span></div>
-      <div class="stat"><strong>6</strong><span>Provincias + ámbito nacional</span></div>
-      <div class="stat"><strong>2021–2026</strong><span>Convocatorias activas</span></div>
+<header class="top-header">
 
-      <hr />
+<div class="institutional">
 
-      <h3>Modalidades</h3>
-      <ul class="legend">
-        <li><span class="dot bilateral"></span>Bilateral</li>
-        <li><span class="dot ong"></span>Convocatoria ONGD</li>
-        <li><span class="dot convenio"></span>Convenio</li>
-        <li><span class="dot innovacion"></span>Innovación</li>
-      </ul>
+<img src="assets/Logo_MAUEC_banderas.png"
+class="logo logo-gob">
 
-      <p class="note">
-        Haz clic sobre cada provincia para consultar los proyectos desplegables.
-      </p>
-    </aside>
+<img src="assets/AECID.png"
+class="logo logo-aecid">
 
-    <section id="map"></section>
-  </main>
+<img src="assets/Logo_Cooperacion_Espanola.png"
+class="logo logo-coop">
 
-  <footer>
-    <span>Fuente: Proyectos Activos Mozambique AECID · Mayo 2026</span>
-  </footer>
+</div>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="data.js"></script>
-  <script src="script.js"></script>
+<div class="header-title">
+
+<div class="eyebrow">
+
+AECID MOZAMBIQUE
+
+</div>
+
+<h1>
+
+Mapa de Proyectos Activos
+
+</h1>
+
+<p>
+
+Cooperación Española para el Desarrollo
+
+</p>
+
+</div>
+
+</header>
+
+<div class="layout">
+
+<aside class="sidebar">
+
+<div class="kpi-grid">
+
+<div class="kpi">
+
+<div class="kpi-value">
+
+28
+
+</div>
+
+<div class="kpi-label">
+
+Proyectos
+
+</div>
+
+</div>
+
+<div class="kpi">
+
+<div class="kpi-value">
+
+7
+
+</div>
+
+<div class="kpi-label">
+
+Ámbitos territoriales
+
+<br>
+
+<span>
+
+6 provincias + ámbito nacional
+
+</span>
+
+</div>
+
+</div>
+
+<div class="kpi">
+
+<div class="kpi-value">
+
+€ XX,X M
+
+</div>
+
+<div class="kpi-label">
+
+Inversión movilizada
+
+</div>
+
+</div>
+
+<div class="kpi">
+
+<div class="kpi-value">
+
+2021–2026
+
+</div>
+
+<div class="kpi-label">
+
+Periodo de ejecución
+
+</div>
+
+</div>
+
+</div>
+
+<section class="panel">
+
+<h2>
+
+Instrumentos de cooperación
+
+</h2>
+
+<button class="filter active"
+
+data-filter="all">
+
+<span class="legend bilateral"></span>
+
+Bilateral
+
+<span class="badge-count">
+
+15
+
+</span>
+
+</button>
+
+<button class="filter"
+
+data-filter="Convocatoria ONGD">
+
+<span class="legend ong"></span>
+
+Convocatoria ONGD
+
+<span class="badge-count">
+
+9
+
+</span>
+
+</button>
+
+<button class="filter"
+
+data-filter="Convenio">
+
+<span class="legend convenio"></span>
+
+Convenio
+
+<span class="badge-count">
+
+2
+
+</span>
+
+</button>
+
+<button class="filter"
+
+data-filter="Innovación">
+
+<span class="legend innovacion"></span>
+
+Innovación
+
+<span class="badge-count">
+
+2
+
+</span>
+
+</button>
+
+</section>
+
+<section class="info-box">
+
+<h3>
+
+¿Cómo utilizar este mapa?
+
+</h3>
+
+<ul>
+
+<li>
+
+Seleccione un instrumento de cooperación.
+
+</li>
+
+<li>
+
+El mapa mostrará únicamente los proyectos correspondientes.
+
+</li>
+
+<li>
+
+Pulse sobre una provincia para consultar el detalle.
+
+</li>
+
+<li>
+
+Los colores permiten identificar rápidamente el instrumento financiero.
+
+</li>
+
+</ul>
+
+</section>
+
+<section class="credits">
+
+<img src="assets/Logo_Cooperacion_Espanola.png">
+
+<p>
+
+Actualizado
+
+<br>
+
+Mayo 2026
+
+</p>
+
+</section>
+
+</aside>
+
+<main>
+
+<div id="map"></div>
+
+</main>
+
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script src="data.js"></script>
+
+<script src="script.js"></script>
+
 </body>
+
 </html>
