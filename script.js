@@ -1,287 +1,289 @@
-const map = L.map("map", {
-  zoomControl: true,
-  scrollWheelZoom: true
-}).setView([-18.6657, 35.5296], 5.4);
+document.addEventListener("DOMContentLoaded", () => {
+  const data = window.projectData || [];
 
-L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-  attribution: '&copy; OpenStreetMap &copy; CARTO',
-  subdomains: "abcd",
-  maxZoom: 19
-}).addTo(map);
+  const map = L.map("map", {
+    zoomControl: true,
+    scrollWheelZoom: true
+  }).setView([-18.6657, 35.5296], 5.4);
 
-const COLORS = {
-  Bilateral: "#2563eb",
-  "Convocatoria ONGD": "#f97316",
-  Convenio: "#16a34a",
-  Innovación: "#8e24aa",
-  Default: "#6b7280"
-};
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+    attribution: '&copy; OpenStreetMap &copy; CARTO',
+    subdomains: "abcd",
+    maxZoom: 19
+  }).addTo(map);
 
-let activeFilter = "all";
-const markerLayer = L.layerGroup().addTo(map);
-
-function normalizeModality(modality) {
-  if (!modality) return "Default";
-
-  const text = String(modality).trim();
-
-  if (text.includes("Bilateral")) return "Bilateral";
-  if (text.includes("ONGD")) return "Convocatoria ONGD";
-  if (text.includes("Convenio")) return "Convenio";
-  if (text.includes("Innovación")) return "Innovación";
-
-  return "Default";
-}
-
-function parseAmount(value) {
-  if (!value) return 0;
-
-  return Number(
-    String(value)
-      .replace("€", "")
-      .replace(/\s/g, "")
-      .replace(/\./g, "")
-      .replace(",", ".")
-      .trim()
-  ) || 0;
-}
-
-function getAllProjects() {
-  if (!Array.isArray(projectData)) return [];
-
-  return projectData.flatMap(location =>
-    location.projects.map(project => ({
-      ...project,
-      location: location.name,
-      lat: location.lat,
-      lng: location.lng,
-      normalizedModality: normalizeModality(project.modality)
-    }))
-  );
-}
-
-function getFilteredProjects(projects) {
-  if (activeFilter === "all") return projects;
-
-  return projects.filter(project =>
-    project.normalizedModality === activeFilter
-  );
-}
-
-function getFilteredLocations() {
-  if (!Array.isArray(projectData)) return [];
-
-  return projectData
-    .map(location => {
-      const projects = location.projects
-        .map(project => ({
-          ...project,
-          normalizedModality: normalizeModality(project.modality)
-        }))
-        .filter(project =>
-          activeFilter === "all" ||
-          project.normalizedModality === activeFilter
-        );
-
-      return {
-        ...location,
-        projects
-      };
-    })
-    .filter(location => location.projects.length > 0);
-}
-
-function updateKpis() {
-  const projects = getFilteredProjects(getAllProjects());
-
-  const totalProjects = projects.length;
-  const territories = new Set(projects.map(project => project.location)).size;
-  const years = projects.map(project => Number(project.year)).filter(Boolean);
-
-  const totalAmount = projects.reduce((sum, project) => {
-    return sum + parseAmount(project.amount);
-  }, 0);
-
-  const kpis = document.querySelectorAll(".kpi-value");
-
-  if (kpis[0]) kpis[0].textContent = totalProjects;
-  if (kpis[1]) kpis[1].textContent = territories;
-
-  if (kpis[2]) {
-    kpis[2].textContent =
-      `€ ${(totalAmount / 1000000).toFixed(1).replace(".", ",")} M`;
-  }
-
-  if (kpis[3]) {
-    kpis[3].textContent = years.length
-      ? `${Math.min(...years)}–${Math.max(...years)}`
-      : "—";
-  }
-}
-
-function updateCounts() {
-  const projects = getAllProjects();
-
-  const counts = {
-    all: projects.length,
-    Bilateral: projects.filter(project =>
-      project.normalizedModality === "Bilateral"
-    ).length,
-    "Convocatoria ONGD": projects.filter(project =>
-      project.normalizedModality === "Convocatoria ONGD"
-    ).length,
-    Convenio: projects.filter(project =>
-      project.normalizedModality === "Convenio"
-    ).length,
-    Innovación: projects.filter(project =>
-      project.normalizedModality === "Innovación"
-    ).length
+  const COLORS = {
+    Bilateral: "#2563eb",
+    "Convocatoria ONGD": "#f97316",
+    Convenio: "#16a34a",
+    Innovación: "#8e24aa",
+    Default: "#6b7280"
   };
 
-  document.querySelectorAll(".filter").forEach(button => {
-    const filter = button.dataset.filter;
-    const badge = button.querySelector(".badge-count");
+  let activeFilter = "all";
+  const markerLayer = L.layerGroup().addTo(map);
 
-    if (badge && counts[filter] !== undefined) {
-      badge.textContent = counts[filter];
+  function normalizeModality(modality) {
+    if (!modality) return "Default";
+
+    const text = String(modality).trim();
+
+    if (text.includes("Bilateral")) return "Bilateral";
+    if (text.includes("ONGD")) return "Convocatoria ONGD";
+    if (text.includes("Convenio")) return "Convenio";
+    if (text.includes("Innovación")) return "Innovación";
+
+    return "Default";
+  }
+
+  function parseAmount(value) {
+    if (!value) return 0;
+
+    return Number(
+      String(value)
+        .replace("€", "")
+        .replace(/\s/g, "")
+        .replace(/\./g, "")
+        .replace(",", ".")
+        .trim()
+    ) || 0;
+  }
+
+  function getAllProjects() {
+    if (!Array.isArray(data)) return [];
+
+    return data.flatMap(location =>
+      (location.projects || []).map(project => ({
+        ...project,
+        location: location.name,
+        lat: location.lat,
+        lng: location.lng,
+        normalizedModality: normalizeModality(project.modality)
+      }))
+    );
+  }
+
+  function getFilteredProjects(projects) {
+    if (activeFilter === "all") return projects;
+
+    return projects.filter(project =>
+      project.normalizedModality === activeFilter
+    );
+  }
+
+  function getFilteredLocations() {
+    if (!Array.isArray(data)) return [];
+
+    return data
+      .map(location => {
+        const projects = (location.projects || [])
+          .map(project => ({
+            ...project,
+            normalizedModality: normalizeModality(project.modality)
+          }))
+          .filter(project =>
+            activeFilter === "all" ||
+            project.normalizedModality === activeFilter
+          );
+
+        return {
+          ...location,
+          projects
+        };
+      })
+      .filter(location => location.projects.length > 0);
+  }
+
+  function updateKpis() {
+    const projects = getFilteredProjects(getAllProjects());
+
+    const totalProjects = projects.length;
+    const territories = new Set(projects.map(project => project.location)).size;
+    const years = projects.map(project => Number(project.year)).filter(Boolean);
+
+    const totalAmount = projects.reduce((sum, project) => {
+      return sum + parseAmount(project.amount);
+    }, 0);
+
+    const kpis = document.querySelectorAll(".kpi-value");
+
+    if (kpis[0]) kpis[0].textContent = totalProjects;
+    if (kpis[1]) kpis[1].textContent = territories;
+
+    if (kpis[2]) {
+      kpis[2].textContent =
+        `€ ${(totalAmount / 1000000).toFixed(1).replace(".", ",")} M`;
     }
-  });
-}
 
-function getDominantModality(projects) {
-  const count = {};
+    if (kpis[3]) {
+      kpis[3].textContent = years.length
+        ? `${Math.min(...years)}–${Math.max(...years)}`
+        : "—";
+    }
+  }
 
-  projects.forEach(project => {
-    count[project.normalizedModality] =
-      (count[project.normalizedModality] || 0) + 1;
-  });
+  function updateCounts() {
+    const projects = getAllProjects();
 
-  return Object.keys(count).sort((a, b) => count[b] - count[a])[0] || "Default";
-}
+    const counts = {
+      all: projects.length,
+      Bilateral: projects.filter(project =>
+        project.normalizedModality === "Bilateral"
+      ).length,
+      "Convocatoria ONGD": projects.filter(project =>
+        project.normalizedModality === "Convocatoria ONGD"
+      ).length,
+      Convenio: projects.filter(project =>
+        project.normalizedModality === "Convenio"
+      ).length,
+      Innovación: projects.filter(project =>
+        project.normalizedModality === "Innovación"
+      ).length
+    };
 
-function createPopupContent(location) {
-  const projectsHtml = location.projects.map((project, index) => {
-    const modality = project.normalizedModality;
-    const color = COLORS[modality] || COLORS.Default;
+    document.querySelectorAll(".filter").forEach(button => {
+      const filter = button.dataset.filter;
+      const badge = button.querySelector(".badge-count");
 
-    return `
-      <details class="project">
-        <summary>
-          <span class="project-number">${index + 1}</span>
-          ${project.title || "Proyecto sin título"}
-        </summary>
-
-        <div class="project-body">
-          <p><strong>Año:</strong> ${project.year || "—"}</p>
-          <p><strong>Socio / entidad:</strong> ${project.partners || "—"}</p>
-          <p><strong>Importe:</strong> ${project.amount || "—"}</p>
-
-          <span class="modality-badge" style="background:${color}">
-            ${project.modality || "Sin modalidad"}
-          </span>
-        </div>
-      </details>
-    `;
-  }).join("");
-
-  return `
-    <div class="popup-card">
-      <div class="popup-header">
-        <p class="popup-kicker">AECID Mozambique</p>
-        <h2>${location.name}</h2>
-        <p>
-          ${location.projects.length}
-          ${location.projects.length === 1 ? "proyecto activo" : "proyectos activos"}
-        </p>
-      </div>
-
-      ${projectsHtml}
-    </div>
-  `;
-}
-
-function renderMap() {
-  markerLayer.clearLayers();
-
-  const locations = getFilteredLocations();
-
-  locations.forEach(location => {
-    const dominantModality = getDominantModality(location.projects);
-    const color = COLORS[dominantModality] || COLORS.Default;
-
-    const marker = L.circleMarker([location.lat, location.lng], {
-      radius: 12 + location.projects.length * 1.8,
-      fillColor: color,
-      color: "#ffffff",
-      weight: 3,
-      opacity: 1,
-      fillOpacity: 0.92
-    });
-
-    marker.bindPopup(createPopupContent(location), {
-      maxWidth: 440,
-      closeButton: true
-    });
-
-    marker.bindTooltip(
-      `<strong>${location.name}</strong><br>${location.projects.length} ${
-        location.projects.length === 1 ? "proyecto" : "proyectos"
-      }`,
-      {
-        direction: "top",
-        offset: [0, -10],
-        opacity: 0.95
+      if (badge && counts[filter] !== undefined) {
+        badge.textContent = counts[filter];
       }
-    );
-
-    markerLayer.addLayer(marker);
-  });
-
-  if (locations.length > 0) {
-    const bounds = L.latLngBounds(
-      locations.map(location => [location.lat, location.lng])
-    );
-
-    map.fitBounds(bounds, {
-      padding: [60, 60],
-      maxZoom: 6.5
     });
   }
 
-  setTimeout(() => {
-    map.invalidateSize();
-  }, 200);
-}
+  function getDominantModality(projects) {
+    const count = {};
 
-function setupFilters() {
-  document.querySelectorAll(".filter").forEach(button => {
-    button.addEventListener("click", () => {
-      document.querySelectorAll(".filter").forEach(btn =>
-        btn.classList.remove("active")
+    projects.forEach(project => {
+      count[project.normalizedModality] =
+        (count[project.normalizedModality] || 0) + 1;
+    });
+
+    return Object.keys(count).sort((a, b) => count[b] - count[a])[0] || "Default";
+  }
+
+  function createPopupContent(location) {
+    const projectsHtml = location.projects.map((project, index) => {
+      const modality = project.normalizedModality;
+      const color = COLORS[modality] || COLORS.Default;
+
+      return `
+        <details class="project">
+          <summary>
+            <span class="project-number">${index + 1}</span>
+            ${project.title || "Proyecto sin título"}
+          </summary>
+
+          <div class="project-body">
+            <p><strong>Año:</strong> ${project.year || "—"}</p>
+            <p><strong>Socio / entidad:</strong> ${project.partners || "—"}</p>
+            <p><strong>Importe:</strong> ${project.amount || "—"}</p>
+
+            <span class="modality-badge" style="background:${color}">
+              ${project.modality || "Sin modalidad"}
+            </span>
+          </div>
+        </details>
+      `;
+    }).join("");
+
+    return `
+      <div class="popup-card">
+        <div class="popup-header">
+          <p class="popup-kicker">AECID Mozambique</p>
+          <h2>${location.name}</h2>
+          <p>
+            ${location.projects.length}
+            ${location.projects.length === 1 ? "proyecto activo" : "proyectos activos"}
+          </p>
+        </div>
+
+        ${projectsHtml}
+      </div>
+    `;
+  }
+
+  function renderMap() {
+    markerLayer.clearLayers();
+
+    const locations = getFilteredLocations();
+
+    locations.forEach(location => {
+      const dominantModality = getDominantModality(location.projects);
+      const color = COLORS[dominantModality] || COLORS.Default;
+
+      const marker = L.circleMarker([location.lat, location.lng], {
+        radius: 12 + location.projects.length * 1.8,
+        fillColor: color,
+        color: "#ffffff",
+        weight: 3,
+        opacity: 1,
+        fillOpacity: 0.92
+      });
+
+      marker.bindPopup(createPopupContent(location), {
+        maxWidth: 440,
+        closeButton: true
+      });
+
+      marker.bindTooltip(
+        `<strong>${location.name}</strong><br>${location.projects.length} ${
+          location.projects.length === 1 ? "proyecto" : "proyectos"
+        }`,
+        {
+          direction: "top",
+          offset: [0, -10],
+          opacity: 0.95
+        }
       );
 
-      button.classList.add("active");
-      activeFilter = button.dataset.filter;
-
-      renderMap();
-      updateKpis();
-      updateCounts();
+      markerLayer.addLayer(marker);
     });
+
+    if (locations.length > 0) {
+      const bounds = L.latLngBounds(
+        locations.map(location => [location.lat, location.lng])
+      );
+
+      map.fitBounds(bounds, {
+        padding: [60, 60],
+        maxZoom: 6.5
+      });
+    }
+
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 250);
+  }
+
+  function setupFilters() {
+    document.querySelectorAll(".filter").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll(".filter").forEach(btn =>
+          btn.classList.remove("active")
+        );
+
+        button.classList.add("active");
+        activeFilter = button.dataset.filter;
+
+        renderMap();
+        updateKpis();
+        updateCounts();
+      });
+    });
+  }
+
+  window.addEventListener("resize", () => {
+    map.invalidateSize();
   });
-}
 
-window.addEventListener("resize", () => {
-  map.invalidateSize();
-});
+  updateCounts();
+  updateKpis();
+  setupFilters();
+  renderMap();
 
-window.addEventListener("load", () => {
   setTimeout(() => {
     map.invalidateSize();
     renderMap();
-  }, 400);
+  }, 500);
 });
-
-updateCounts();
-updateKpis();
-setupFilters();
-renderMap();
