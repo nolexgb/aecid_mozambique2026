@@ -5,96 +5,110 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mapa de Proyectos AECID Mozambique</title>
 
-  <!-- Leaflet CSS -->
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  />
-
-  <!-- CSS propio -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <div class="app">
+  <header class="top-header">
+    <div class="institutional">
+      <img src="assets/Logo_MAUEC_banderas.png" alt="Gobierno de España - MAUEC" class="logo logo-gob" />
+      <img src="assets/AECID.png" alt="AECID" class="logo logo-aecid" />
+      <img src="assets/Logo_Cooperacion_Espanola.png" alt="Cooperación Española" class="logo logo-coop" />
+    </div>
 
-    <!-- CABECERA -->
-    <header class="top-header">
-      <div class="logos">
-        <img src="img/logo-maec.png" alt="Gobierno de España - MAEC" />
-        <img src="img/logo-aecid.png" alt="AECID" />
-        <img src="img/logo-cooperacion.png" alt="Cooperación Española" />
-      </div>
-    </header>
+    <div class="header-title">
+      <div class="eyebrow">Cooperación Española en Mozambique</div>
+      <h1>Mapa de proyectos activos</h1>
+      <p>AECID Mozambique · 2025–2026</p>
+    </div>
+  </header>
 
-    <!-- INTRODUCCIÓN -->
-    <section class="intro">
-      <h1>MAPA DE PROYECTOS ACTIVOS</h1>
+  <div class="layout">
+    <aside class="sidebar">
+      <section class="kpi-grid">
+        <div class="kpi">
+          <div class="kpi-value">9</div>
+          <div class="kpi-label">Proyectos activos</div>
+        </div>
 
-      <div class="summary">
-        <p><strong>Cooperación Española para el Desarrollo</strong></p>
-        <p><strong>9</strong> proyectos</p>
-        <p><strong>14.071.004 €</strong> ayuda nacional</p>
-        <p><strong>8</strong> ONGD / instituciones</p>
-        <p><strong>2025–2026</strong></p>
-      </div>
+        <div class="kpi">
+          <div class="kpi-value">8</div>
+          <div class="kpi-label">Territorios / localizaciones</div>
+        </div>
 
-      <div class="filters-box">
+        <div class="kpi">
+          <div class="kpi-value">€ 14,1 M</div>
+          <div class="kpi-label">Ayuda nacional</div>
+        </div>
+
+        <div class="kpi">
+          <div class="kpi-value">2025–2026</div>
+          <div class="kpi-label">Periodo de ejecución</div>
+        </div>
+      </section>
+
+      <section class="panel">
         <h2>Instrumentos de cooperación</h2>
 
-        <div class="filters">
-          <button data-filter="all" class="filter-btn active">Todos</button>
-          <button data-filter="Convenio" class="filter-btn">Convenio</button>
-          <button data-filter="Proyecto" class="filter-btn">Proyecto</button>
-          <button data-filter="Acción Humanitaria" class="filter-btn">Acción Humanitaria</button>
-          <button data-filter="Cooperación Delegada" class="filter-btn">Cooperación Delegada</button>
-          <button data-filter="Subvención" class="filter-btn">Subvención</button>
-          <button data-filter="Otros" class="filter-btn">Otros</button>
-        </div>
-      </div>
+        <button class="filter active" data-filter="all">
+          <span class="legend all"></span>
+          Todos
+          <span class="badge-count">0</span>
+        </button>
 
-      <div class="help-box">
-        <h2>¿Cómo utilizar este mapa?</h2>
+        <button class="filter" data-filter="Bilateral">
+          <span class="legend bilateral"></span>
+          Bilateral
+          <span class="badge-count">0</span>
+        </button>
+
+        <button class="filter" data-filter="Convocatoria ONGD">
+          <span class="legend ong"></span>
+          Convocatoria ONGD
+          <span class="badge-count">0</span>
+        </button>
+
+        <button class="filter" data-filter="Convenio">
+          <span class="legend convenio"></span>
+          Convenio
+          <span class="badge-count">0</span>
+        </button>
+
+        <button class="filter" data-filter="Innovación">
+          <span class="legend innovacion"></span>
+          Innovación
+          <span class="badge-count">0</span>
+        </button>
+      </section>
+
+      <section class="info-box">
+        <h3>¿Cómo utilizar este mapa?</h3>
         <ul>
           <li>Seleccione un instrumento de cooperación.</li>
           <li>El mapa mostrará únicamente los proyectos correspondientes.</li>
           <li>Haga clic en cada marcador para consultar el detalle.</li>
-          <li>Los círculos permiten representar distintos instrumentos.</li>
+          <li>El tamaño del círculo refleja el número de proyectos.</li>
         </ul>
-      </div>
-    </section>
-
-    <!-- CUERPO MAPA -->
-    <main class="map-layout">
-
-      <aside class="sidebar">
-        <img
-          src="img/logo-cooperacion.png"
-          class="sidebar-logo"
-          alt="Cooperación Española"
-        />
-
-        <div class="source">
-          <p><strong>Fuente:</strong></p>
-          <p>AECID Mozambique</p>
-          <p>Mayo 2026</p>
-        </div>
-      </aside>
-
-      <section class="map-section">
-        <div id="map"></div>
       </section>
 
-    </main>
+      <section class="credits">
+        <img src="assets/Logo_Cooperacion_Espanola.png" alt="Cooperación Española" />
+        <div>
+          <strong>Fuente:</strong><br />
+          AECID Mozambique<br />
+          Mayo 2026
+        </div>
+      </section>
+    </aside>
 
+    <main>
+      <div id="map"></div>
+    </main>
   </div>
 
-  <!-- Leaflet JS -->
-  <script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
-  </script>
-
-  <!-- JS propio -->
-  <script src="buscador.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="data.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
