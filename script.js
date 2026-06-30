@@ -22,10 +22,14 @@ const markerLayer = L.layerGroup().addTo(map);
 
 function normalizeModality(modality) {
   if (!modality) return "Default";
-  if (modality.includes("Bilateral")) return "Bilateral";
-  if (modality.includes("ONGD")) return "Convocatoria ONGD";
-  if (modality.includes("Convenio")) return "Convenio";
-  if (modality.includes("Innovación")) return "Innovación";
+
+  const text = String(modality).trim();
+
+  if (text.includes("Bilateral")) return "Bilateral";
+  if (text.includes("ONGD")) return "Convocatoria ONGD";
+  if (text.includes("Convenio")) return "Convenio";
+  if (text.includes("Innovación")) return "Innovación";
+
   return "Default";
 }
 
@@ -35,6 +39,7 @@ function parseAmount(value) {
   return Number(
     String(value)
       .replace("€", "")
+      .replace(/\s/g, "")
       .replace(/\./g, "")
       .replace(",", ".")
       .trim()
@@ -42,6 +47,8 @@ function parseAmount(value) {
 }
 
 function getAllProjects() {
+  if (!Array.isArray(projectData)) return [];
+
   return projectData.flatMap(location =>
     location.projects.map(project => ({
       ...project,
@@ -55,10 +62,15 @@ function getAllProjects() {
 
 function getFilteredProjects(projects) {
   if (activeFilter === "all") return projects;
-  return projects.filter(project => project.normalizedModality === activeFilter);
+
+  return projects.filter(project =>
+    project.normalizedModality === activeFilter
+  );
 }
 
 function getFilteredLocations() {
+  if (!Array.isArray(projectData)) return [];
+
   return projectData
     .map(location => {
       const projects = location.projects
@@ -67,7 +79,8 @@ function getFilteredLocations() {
           normalizedModality: normalizeModality(project.modality)
         }))
         .filter(project =>
-          activeFilter === "all" || project.normalizedModality === activeFilter
+          activeFilter === "all" ||
+          project.normalizedModality === activeFilter
         );
 
       return {
@@ -84,6 +97,7 @@ function updateKpis() {
   const totalProjects = projects.length;
   const territories = new Set(projects.map(project => project.location)).size;
   const years = projects.map(project => Number(project.year)).filter(Boolean);
+
   const totalAmount = projects.reduce((sum, project) => {
     return sum + parseAmount(project.amount);
   }, 0);
@@ -92,10 +106,16 @@ function updateKpis() {
 
   if (kpis[0]) kpis[0].textContent = totalProjects;
   if (kpis[1]) kpis[1].textContent = territories;
-  if (kpis[2]) kpis[2].textContent = `€ ${(totalAmount / 1000000).toFixed(1).replace(".", ",")} M`;
 
-  if (kpis[3] && years.length) {
-    kpis[3].textContent = `${Math.min(...years)}–${Math.max(...years)}`;
+  if (kpis[2]) {
+    kpis[2].textContent =
+      `€ ${(totalAmount / 1000000).toFixed(1).replace(".", ",")} M`;
+  }
+
+  if (kpis[3]) {
+    kpis[3].textContent = years.length
+      ? `${Math.min(...years)}–${Math.max(...years)}`
+      : "—";
   }
 }
 
@@ -104,10 +124,18 @@ function updateCounts() {
 
   const counts = {
     all: projects.length,
-    Bilateral: projects.filter(project => project.normalizedModality === "Bilateral").length,
-    "Convocatoria ONGD": projects.filter(project => project.normalizedModality === "Convocatoria ONGD").length,
-    Convenio: projects.filter(project => project.normalizedModality === "Convenio").length,
-    Innovación: projects.filter(project => project.normalizedModality === "Innovación").length
+    Bilateral: projects.filter(project =>
+      project.normalizedModality === "Bilateral"
+    ).length,
+    "Convocatoria ONGD": projects.filter(project =>
+      project.normalizedModality === "Convocatoria ONGD"
+    ).length,
+    Convenio: projects.filter(project =>
+      project.normalizedModality === "Convenio"
+    ).length,
+    Innovación: projects.filter(project =>
+      project.normalizedModality === "Innovación"
+    ).length
   };
 
   document.querySelectorAll(".filter").forEach(button => {
@@ -140,16 +168,16 @@ function createPopupContent(location) {
       <details class="project">
         <summary>
           <span class="project-number">${index + 1}</span>
-          ${project.title}
+          ${project.title || "Proyecto sin título"}
         </summary>
 
         <div class="project-body">
-          <p><strong>Año:</strong> ${project.year}</p>
-          <p><strong>Socio / entidad:</strong> ${project.partners}</p>
-          <p><strong>Importe:</strong> ${project.amount}</p>
+          <p><strong>Año:</strong> ${project.year || "—"}</p>
+          <p><strong>Socio / entidad:</strong> ${project.partners || "—"}</p>
+          <p><strong>Importe:</strong> ${project.amount || "—"}</p>
 
           <span class="modality-badge" style="background:${color}">
-            ${project.modality}
+            ${project.modality || "Sin modalidad"}
           </span>
         </div>
       </details>
@@ -161,9 +189,10 @@ function createPopupContent(location) {
       <div class="popup-header">
         <p class="popup-kicker">AECID Mozambique</p>
         <h2>${location.name}</h2>
-        <p>${location.projects.length} ${
-          location.projects.length === 1 ? "proyecto activo" : "proyectos activos"
-        }</p>
+        <p>
+          ${location.projects.length}
+          ${location.projects.length === 1 ? "proyecto activo" : "proyectos activos"}
+        </p>
       </div>
 
       ${projectsHtml}
@@ -209,13 +238,19 @@ function renderMap() {
   });
 
   if (locations.length > 0) {
-    const bounds = L.latLngBounds(locations.map(location => [location.lat, location.lng]));
+    const bounds = L.latLngBounds(
+      locations.map(location => [location.lat, location.lng])
+    );
 
     map.fitBounds(bounds, {
       padding: [60, 60],
       maxZoom: 6.5
     });
   }
+
+  setTimeout(() => {
+    map.invalidateSize();
+  }, 200);
 }
 
 function setupFilters() {
@@ -234,6 +269,17 @@ function setupFilters() {
     });
   });
 }
+
+window.addEventListener("resize", () => {
+  map.invalidateSize();
+});
+
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    map.invalidateSize();
+    renderMap();
+  }, 400);
+});
 
 updateCounts();
 updateKpis();
