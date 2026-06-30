@@ -18,7 +18,7 @@ const COLORS = {
 };
 
 let activeFilter = "all";
-let markerLayer = L.layerGroup().addTo(map);
+const markerLayer = L.layerGroup().addTo(map);
 
 function normalizeModality(modality) {
   if (!modality) return "Default";
@@ -31,8 +31,9 @@ function normalizeModality(modality) {
 
 function parseAmount(value) {
   if (!value) return 0;
+
   return Number(
-    value
+    String(value)
       .replace("€", "")
       .replace(/\./g, "")
       .replace(",", ".")
@@ -79,10 +80,13 @@ function getFilteredLocations() {
 
 function updateKpis() {
   const projects = getFilteredProjects(getAllProjects());
+
   const totalProjects = projects.length;
-  const territories = new Set(projects.map(p => p.location)).size;
-  const years = projects.map(p => Number(p.year)).filter(Boolean);
-  const totalAmount = projects.reduce((sum, p) => sum + parseAmount(p.amount), 0);
+  const territories = new Set(projects.map(project => project.location)).size;
+  const years = projects.map(project => Number(project.year)).filter(Boolean);
+  const totalAmount = projects.reduce((sum, project) => {
+    return sum + parseAmount(project.amount);
+  }, 0);
 
   const kpis = document.querySelectorAll(".kpi-value");
 
@@ -99,21 +103,19 @@ function updateCounts() {
   const projects = getAllProjects();
 
   const counts = {
-    Bilateral: projects.filter(p => p.normalizedModality === "Bilateral").length,
-    "Convocatoria ONGD": projects.filter(p => p.normalizedModality === "Convocatoria ONGD").length,
-    Convenio: projects.filter(p => p.normalizedModality === "Convenio").length,
-    Innovación: projects.filter(p => p.normalizedModality === "Innovación").length
+    all: projects.length,
+    Bilateral: projects.filter(project => project.normalizedModality === "Bilateral").length,
+    "Convocatoria ONGD": projects.filter(project => project.normalizedModality === "Convocatoria ONGD").length,
+    Convenio: projects.filter(project => project.normalizedModality === "Convenio").length,
+    Innovación: projects.filter(project => project.normalizedModality === "Innovación").length
   };
 
   document.querySelectorAll(".filter").forEach(button => {
     const filter = button.dataset.filter;
+    const badge = button.querySelector(".badge-count");
 
-    if (filter === "all") {
-      button.querySelector(".badge-count").textContent = counts.Bilateral;
-    }
-
-    if (counts[filter] !== undefined) {
-      button.querySelector(".badge-count").textContent = counts[filter];
+    if (badge && counts[filter] !== undefined) {
+      badge.textContent = counts[filter];
     }
   });
 }
@@ -122,7 +124,8 @@ function getDominantModality(projects) {
   const count = {};
 
   projects.forEach(project => {
-    count[project.normalizedModality] = (count[project.normalizedModality] || 0) + 1;
+    count[project.normalizedModality] =
+      (count[project.normalizedModality] || 0) + 1;
   });
 
   return Object.keys(count).sort((a, b) => count[b] - count[a])[0] || "Default";
@@ -158,7 +161,9 @@ function createPopupContent(location) {
       <div class="popup-header">
         <p class="popup-kicker">AECID Mozambique</p>
         <h2>${location.name}</h2>
-        <p>${location.projects.length} ${location.projects.length === 1 ? "proyecto activo" : "proyectos activos"}</p>
+        <p>${location.projects.length} ${
+          location.projects.length === 1 ? "proyecto activo" : "proyectos activos"
+        }</p>
       </div>
 
       ${projectsHtml}
@@ -181,7 +186,7 @@ function renderMap() {
       color: "#ffffff",
       weight: 3,
       opacity: 1,
-      fillOpacity: 0.9
+      fillOpacity: 0.92
     });
 
     marker.bindPopup(createPopupContent(location), {
@@ -190,7 +195,9 @@ function renderMap() {
     });
 
     marker.bindTooltip(
-      `<strong>${location.name}</strong><br>${location.projects.length} proyectos`,
+      `<strong>${location.name}</strong><br>${location.projects.length} ${
+        location.projects.length === 1 ? "proyecto" : "proyectos"
+      }`,
       {
         direction: "top",
         offset: [0, -10],
@@ -202,7 +209,8 @@ function renderMap() {
   });
 
   if (locations.length > 0) {
-    const bounds = L.latLngBounds(locations.map(l => [l.lat, l.lng]));
+    const bounds = L.latLngBounds(locations.map(location => [location.lat, location.lng]));
+
     map.fitBounds(bounds, {
       padding: [60, 60],
       maxZoom: 6.5
@@ -222,6 +230,7 @@ function setupFilters() {
 
       renderMap();
       updateKpis();
+      updateCounts();
     });
   });
 }
