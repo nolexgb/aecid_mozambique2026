@@ -1,4 +1,4 @@
-const projectData = [
+window.projectData = [
   {
     name: "Ámbito Nacional",
     lat: -18.6657,
