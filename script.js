@@ -98,8 +98,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const projects = getFilteredProjects(getAllProjects());
 
     const totalProjects = projects.length;
-    const territories = new Set(projects.map(project => project.location)).size;
-    const years = projects.map(project => Number(project.year)).filter(Boolean);
+
+    const years = projects
+      .map(project => Number(project.year))
+      .filter(Boolean);
 
     const totalAmount = projects.reduce((sum, project) => {
       return sum + parseAmount(project.amount);
@@ -107,8 +109,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const kpis = document.querySelectorAll(".kpi-value");
 
-    if (kpis[0]) kpis[0].textContent = totalProjects;
-    if (kpis[1]) kpis[1].textContent = territories;
+    if (kpis[0]) {
+      kpis[0].textContent = totalProjects;
+    }
+
+    if (kpis[1]) {
+      kpis[1].textContent = "6 + ámbito nacional";
+    }
 
     if (kpis[2]) {
       kpis[2].textContent =
