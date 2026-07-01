@@ -1,7 +1,0 @@
-/* Variables globales AECID, tipografía y espaciados */
-:root {
-  --aecid-red:#D0001B;
-  --aecid-blue:#003B79;
-  --aecid-yellow:#FFCC00;
-  --font-family:'Google Sans Flex','Inter',sans-serif;
-}
