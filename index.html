@@ -3,111 +3,124 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mapa de Proyectos AECID Mozambique</title>
+
+  <title>Mapa interactivo de proyectos | Cooperación Española en Mozambique</title>
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
-  <header class="top-header">
-    <div class="institutional">
-      <img src="assets/Logo_MAUEC_banderas.png" alt="Gobierno de España - MAUEC" class="logo logo-gob" />
-      <img src="assets/AECID.png" alt="AECID" class="logo logo-aecid" />
-      <img src="assets/Logo_Cooperacion_Espanola.png" alt="Cooperación Española" class="logo logo-coop" />
+  <header class="site-header">
+    <div class="logos">
+      <img src="assets/Logo_MAUEC_banderas.png" alt="MAUEC" />
+      <img src="assets/AECID.png" alt="AECID" />
+      <img src="assets/Logo_Cooperacion_Espanola.png" alt="Cooperación Española" />
     </div>
 
-    <div class="header-title">
-      <div class="eyebrow">Cooperación Española en Mozambique</div>
-      <h1>Mapa de proyectos activos</h1>
-      <p>AECID Mozambique · 2025–2026</p>
+    <div class="title-block">
+      <p class="eyebrow">Cooperación Española en Mozambique</p>
+      <h1>Mapa interactivo de proyectos</h1>
+      <p class="subtitle">
+        Explore los proyectos financiados por la AECID por territorio y área de intervención.
+      </p>
+    </div>
+
+    <div class="update-pill">
+      <span></span>
+      Actualización automática
     </div>
   </header>
 
-  <div class="layout">
-    <aside class="sidebar">
+  <main class="app-layout">
+    <aside class="dashboard">
+      <section class="search-card">
+        <label for="searchInput">Buscar</label>
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="Proyecto, socio, provincia, sector u ODS..."
+        />
+      </section>
+
+      <section class="filters-card">
+        <div class="filter-group">
+          <label for="sectorFilter">Sector</label>
+          <select id="sectorFilter">
+            <option value="all">Todos los sectores</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label for="estadoFilter">Estado</label>
+          <select id="estadoFilter">
+            <option value="all">Todos los estados</option>
+          </select>
+        </div>
+      </section>
+
       <section class="kpi-grid">
-        <div class="kpi">
-          <div class="kpi-value">9</div>
-          <div class="kpi-label">Proyectos activos</div>
-        </div>
+        <article class="kpi-card">
+          <span class="kpi-icon">📁</span>
+          <strong id="kpiProjects">0</strong>
+          <small>Proyectos</small>
+        </article>
 
-        <div class="kpi">
-          <div class="kpi-value">6 + ámbito nacional</div>
-          <div class="kpi-label">Ejecución de proyectos en 6 provincias + ámbito nacional</div>
-        </div>
+        <article class="kpi-card">
+          <span class="kpi-icon">€</span>
+          <strong id="kpiAmount">€ 0 M</strong>
+          <small>Financiación AECID</small>
+        </article>
 
-        <div class="kpi">
-          <div class="kpi-value">€ 14,1 M</div>
-          <div class="kpi-label">Ayuda nacional</div>
-        </div>
+        <article class="kpi-card">
+          <span class="kpi-icon">📍</span>
+          <strong id="kpiTerritory">—</strong>
+          <small>Ámbito territorial</small>
+        </article>
 
-        <div class="kpi">
-          <div class="kpi-value">2025–2026</div>
-          <div class="kpi-label">Periodo de ejecución</div>
-        </div>
+        <article class="kpi-card">
+          <span class="kpi-icon">📅</span>
+          <strong id="kpiYears">—</strong>
+          <small>Periodo de ejecución</small>
+        </article>
       </section>
 
-      <section class="panel">
-        <h2>Instrumentos de cooperación</h2>
+      <section class="legend-card">
+        <h2>Modalidad predominante</h2>
 
-        <button class="filter active" data-filter="all">
-          <span class="legend all"></span>
-          Todos
-          <span class="badge-count">0</span>
-        </button>
-
-        <button class="filter" data-filter="Bilateral">
-          <span class="legend bilateral"></span>
+        <div class="legend-item">
+          <span class="dot bilateral"></span>
           Bilateral
-          <span class="badge-count">0</span>
-        </button>
+        </div>
 
-        <button class="filter" data-filter="Convocatoria ONGD">
-          <span class="legend ong"></span>
+        <div class="legend-item">
+          <span class="dot ong"></span>
           Convocatoria ONGD
-          <span class="badge-count">0</span>
-        </button>
+        </div>
 
-        <button class="filter" data-filter="Convenio">
-          <span class="legend convenio"></span>
+        <div class="legend-item">
+          <span class="dot convenio"></span>
           Convenio
-          <span class="badge-count">0</span>
-        </button>
+        </div>
 
-        <button class="filter" data-filter="Innovación">
-          <span class="legend innovacion"></span>
+        <div class="legend-item">
+          <span class="dot innovacion"></span>
           Innovación
-          <span class="badge-count">0</span>
-        </button>
-      </section>
-
-      <section class="info-box">
-        <h3>¿Cómo utilizar este mapa?</h3>
-        <ul>
-          <li>Seleccione un instrumento de cooperación.</li>
-          <li>El mapa mostrará únicamente los proyectos correspondientes.</li>
-          <li>Haga clic en cada marcador para consultar el detalle.</li>
-          <li>El tamaño del círculo refleja el número de proyectos.</li>
-        </ul>
-      </section>
-
-      <section class="credits">
-        <img src="assets/Logo_Cooperacion_Espanola.png" alt="Cooperación Española" />
-        <div>
-          <strong>Fuente:</strong><br />
-          AECID Mozambique<br />
-          Mayo 2026
         </div>
       </section>
     </aside>
 
-    <main>
+    <section class="map-area">
       <div id="map"></div>
-    </main>
-  </div>
+
+      <section id="mobileSheet" class="mobile-sheet">
+        <button id="closeSheet" aria-label="Cerrar">×</button>
+        <div id="mobileSheetContent"></div>
+      </section>
+    </section>
+  </main>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="script.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
