@@ -1,0 +1,105 @@
+# ==========================================================
+# AECID Mozambique Interactive Map
+# .gitignore
+# ==========================================================
+
+##############################
+# Sistema operativo
+##############################
+
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+##############################
+# Archivos temporales
+##############################
+
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*.log
+
+##############################
+# Visual Studio Code
+##############################
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+##############################
+# JetBrains
+##############################
+
+.idea/
+
+##############################
+# Node (solo si en el futuro se usa)
+##############################
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+##############################
+# Caché
+##############################
+
+.cache/
+dist/
+build/
+
+##############################
+# Variables de entorno
+##############################
+
+.env
+.env.*
+!.env.example
+
+##############################
+# Archivos ZIP generados
+##############################
+
+*.zip
+
+##############################
+# Copias de seguridad
+##############################
+
+backup/
+old/
+temp/
+
+##############################
+# Python (por si se generan scripts)
+##############################
+
+__pycache__/
+*.pyc
+
+##############################
+# MacOS
+##############################
+
+.AppleDouble
+.LSOverride
+
+##############################
+# Linux
+##############################
+
+*~
+
+##############################
+# Archivos locales
+##############################
+
+config.local.js
