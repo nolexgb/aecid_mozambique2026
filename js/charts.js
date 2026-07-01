@@ -1,0 +1,1 @@
+export function renderCharts(data){ return '<div class="chart-block">Charts</div>'; }

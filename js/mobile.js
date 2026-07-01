@@ -1,0 +1,1 @@
+export function initMobile(){ /* bottom sheet */ }

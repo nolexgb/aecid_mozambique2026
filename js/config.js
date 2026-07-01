@@ -1,0 +1,1 @@
+export default { dataUrl:'', mapCenter:[-18.6657,35.5296], zoom:5.4 };

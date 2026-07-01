@@ -1,0 +1,1 @@
+import {createMarkers} from './markers.js'; export function initMap(cfg,projects){ const map=L.map('map').setView(cfg.mapCenter,cfg.zoom); L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{subdomains:'abcd'}).addTo(map); createMarkers(map,projects); return map; }

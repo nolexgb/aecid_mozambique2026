@@ -1,0 +1,1 @@
+export function initFilters(projects,map){ /* modalidad, sector, ods, estado */ }

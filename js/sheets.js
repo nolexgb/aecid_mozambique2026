@@ -1,0 +1,1 @@
+export async function loadProjects(cfg){ const r=await fetch(cfg.dataUrl); const t=await r.text(); return t; }

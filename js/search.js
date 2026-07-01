@@ -1,0 +1,1 @@
+export function initSearch(projects,map){ /* autocomplete */ }

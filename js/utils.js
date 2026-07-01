@@ -1,0 +1,1 @@
+export const money=v=>Number(v||0); export const unique=a=>[...new Set(a)];

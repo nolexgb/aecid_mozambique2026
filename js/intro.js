@@ -1,0 +1,1 @@
+export function initIntro(){ const b=document.getElementById('enterMapBtn'); if(b)b.onclick=()=>document.getElementById('introScreen')?.classList.add('hidden'); }
