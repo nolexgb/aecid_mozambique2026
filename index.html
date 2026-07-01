@@ -3,121 +3,155 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Mapa interactivo de proyectos | Cooperación Española en Mozambique</title>
 
-  <link rel="preconnect" href="https://unpkg.com" />
-  <link rel="preconnect" href="https://basemaps.cartocdn.com" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
-  <section id="introScreen" class="intro-screen intro-sequence" aria-label="Pantalla de inicio cinematográfica">
-    <div class="intro-photo" role="img" aria-label="Mozambique"></div>
-    <div class="intro-red-field" aria-hidden="true"></div>
-    <div class="intro-photo-mask" aria-hidden="true"></div>
 
-    <div class="intro-step intro-step-logo" aria-hidden="true">
-      <img src="assets/logos/Logo_Cooperacion_Espanola.png" alt="" class="intro-brand-logo" />
-      <p>en Mozambique</p>
-      <span class="intro-progress"></span>
-    </div>
+  <!-- INTRO CINEMÁTICA -->
+  <section id="introScreen" class="intro-screen">
+    <div class="intro-content">
 
-    <div class="intro-step intro-step-orbit" aria-hidden="true">
-      <div class="intro-orbit-ring"></div>
-      <img src="assets/logos/Logo_Cooperacion_Espanola.png" alt="" class="intro-orbit-logo" />
-    </div>
-
-    <div class="intro-step intro-step-reveal" aria-hidden="true">
-      <div class="intro-big-c">C</div>
-      <div class="intro-lens"></div>
-    </div>
-
-    <div class="intro-final-content">
-      <div class="intro-final-logos">
-        <img src="assets/Logo_MAUEC_banderas.png">
-        <img src="assets/AECID.png">
-        <img src="assets/Logo_Cooperacion_Espanola.png">
+      <div class="intro-logos">
+        <img src="assets/Logo_MAUEC_banderas.png" alt="MAUEC" />
+        <img src="assets/AECID.png" alt="AECID" />
+        <img src="assets/Logo_Cooperacion_Espanola.png" alt="Cooperación Española" />
       </div>
-      <p class="intro-eyebrow">Cooperación Española en Mozambique</p>
-      <h1>Mapa interactivo<br />de proyectos</h1>
-      <p class="intro-copy">Explore los proyectos financiados por la AECID por territorio, modalidad, sector y ODS.</p>
-      <button id="enterMap" class="enter-map" type="button" aria-label="Entrar al mapa">
-        <span>Entrar al mapa</span>
-        <strong>↓</strong>
-      </button>
-      <p class="intro-hint">Deslice o pulse para explorar</p>
+
+      <p class="intro-kicker">Cooperación Española en Mozambique</p>
+
+      <h1 class="intro-title">
+        Mapa interactivo<br />
+        de proyectos
+      </h1>
+
+      <p class="intro-subtitle">
+        Explore los proyectos financiados por la AECID por territorio, modalidad,
+        sector y ODS.
+      </p>
+
+      <div class="intro-actions">
+        <button id="enterMapBtn" class="intro-btn primary">
+          Entrar al mapa
+        </button>
+      </div>
+
     </div>
 
-    <button id="skipIntro" class="skip-intro" type="button">Saltar introducción</button>
+    <button id="skipIntroBtn" class="intro-skip">
+      Saltar introducción
+    </button>
   </section>
 
-  <header class="site-header">
-    <div class="logos" aria-label="Identidad institucional">
-     <img src="assets/Logo_MAUEC_banderas.png">
-    <img src="assets/AECID.png">
-    <img src="assets/Logo_Cooperacion_Espanola.png">
+  <!-- CABECERA -->
+  <header class="app-header">
+    <div class="brand-logos">
+      <img
+        src="assets/Logo_MAUEC_banderas.png"
+        alt="Ministerio de Asuntos Exteriores, Unión Europea y Cooperación"
+        class="brand-logo logo-mauec"
+      />
+
+      <img
+        src="assets/AECID.png"
+        alt="AECID"
+        class="brand-logo logo-aecid"
+      />
+
+      <img
+        src="assets/Logo_Cooperacion_Espanola.png"
+        alt="Cooperación Española"
+        class="brand-logo logo-cooperacion"
+      />
     </div>
 
-    <div class="title-block">
+    <div class="header-copy">
       <p class="eyebrow">Cooperación Española en Mozambique</p>
+
       <h1>Mapa interactivo de proyectos</h1>
-      <p class="subtitle">Explore los proyectos financiados por la AECID por territorio y área de intervención.</p>
+
+      <p class="subtitle">
+        Explore los proyectos financiados por la AECID por territorio y área de intervención.
+      </p>
     </div>
 
-    <div class="update-pill" title="Datos cargados desde Google Sheets">
+    <div class="update-pill">
       <span></span>
       Actualización automática
     </div>
   </header>
 
-  <main class="app-layout">
-    <aside class="dashboard" aria-label="Panel de búsqueda y resumen">
-      <section class="intro-card reveal-card">
-        <strong>Explorar la cartera de proyectos</strong>
-        <p>Busque por socio o entidad colaboradora. Después refine la exploración por modalidad, sector, ODS y estado.</p>
+  <!-- APLICACIÓN -->
+  <main class="app-shell">
+
+    <!-- PANEL LATERAL -->
+    <aside class="sidebar">
+
+      <section class="panel-card">
+        <h2>Explorar la cartera de proyectos</h2>
+        <p>
+          Busque por socio o entidad colaboradora. Después refine la exploración
+          por modalidad, sector, ODS y estado.
+        </p>
       </section>
 
-      <section class="search-card reveal-card">
+      <section class="search-card">
         <label for="searchInput">Buscar entidad</label>
-        <div class="search-wrapper">
-          <input id="searchInput" type="search" placeholder="Buscar socio o entidad colaboradora..." autocomplete="off" aria-autocomplete="list" aria-controls="searchSuggestions" />
+
+        <div class="search-wrap">
+          <input
+            id="searchInput"
+            type="search"
+            placeholder="Buscar socio o entidad colaboradora..."
+            autocomplete="off"
+          />
+          <span class="search-icon">⌕</span>
+        </div>
+
+        <div id="suggestions" class="suggestions"></div>
+      </section>
+
+      <section class="filters-card">
+        <div class="filters-grid">
+
+          <div class="filter-group full">
+            <label for="modalityFilter">Modalidad</label>
+            <select id="modalityFilter">
+              <option value="all">Todas las modalidades</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="sectorFilter">Sector</label>
+            <select id="sectorFilter">
+              <option value="all">Todos los sectores</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="odsFilter">ODS</label>
+            <select id="odsFilter">
+              <option value="all">Todos los ODS</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="statusFilter">Estado</label>
+            <select id="statusFilter">
+              <option value="all">Todos los estados</option>
+            </select>
+          </div>
+
         </div>
       </section>
 
-      <section class="filters-card reveal-card">
-        <div class="filter-group filter-group-wide">
-          <label for="modalidadFilter">Modalidad</label>
-          <select id="modalidadFilter">
-            <option value="all">Todas las modalidades</option>
-          </select>
-        </div>
-
-        <div class="filter-group">
-          <label for="sectorFilter">Sector</label>
-          <select id="sectorFilter">
-            <option value="all">Todos los sectores</option>
-          </select>
-        </div>
-
-        <div class="filter-group">
-          <label for="odsFilter">ODS</label>
-          <select id="odsFilter">
-            <option value="all">Todos los ODS</option>
-          </select>
-        </div>
-
-        <div class="filter-group">
-          <label for="estadoFilter">Estado</label>
-          <select id="estadoFilter">
-            <option value="all">Todos los estados</option>
-          </select>
-        </div>
-      </section>
-
-      <section class="kpi-grid reveal-card" aria-label="Indicadores principales">
+      <section class="kpi-grid">
         <article class="kpi-card">
-          <span class="kpi-icon">📁</span>
+          <span class="kpi-icon">▣</span>
           <strong id="kpiProjects">0</strong>
           <small>Proyectos</small>
         </article>
@@ -129,50 +163,63 @@
         </article>
 
         <article class="kpi-card">
-          <span class="kpi-icon">📍</span>
+          <span class="kpi-icon">⌖</span>
           <strong id="kpiTerritory">—</strong>
           <small>Ámbito territorial</small>
         </article>
 
         <article class="kpi-card">
-          <span class="kpi-icon">📅</span>
+          <span class="kpi-icon">▦</span>
           <strong id="kpiYears">—</strong>
           <small>Periodo de ejecución</small>
         </article>
       </section>
 
-      <section class="legend-card reveal-card">
-        <h2>Leyenda de modalidades</h2>
-        <div class="legend-grid">
-          <div class="legend-item"><span class="dot bilateral"></span>Bilateral</div>
-          <div class="legend-item"><span class="dot ong"></span>Convocatoria ONGD</div>
-          <div class="legend-item"><span class="dot convenio"></span>Convenio</div>
-          <div class="legend-item"><span class="dot innovacion"></span>Innovación</div>
+      <section class="legend-card">
+        <h2>Modalidad predominante</h2>
+
+        <div class="legend-item">
+          <span class="dot bilateral"></span>
+          Bilateral
+        </div>
+
+        <div class="legend-item">
+          <span class="dot ong"></span>
+          Convocatoria ONGD
+        </div>
+
+        <div class="legend-item">
+          <span class="dot convenio"></span>
+          Convenio
+        </div>
+
+        <div class="legend-item">
+          <span class="dot innovacion"></span>
+          Innovación
         </div>
       </section>
 
-      <section class="results-card reveal-card">
-        <div class="results-header">
-          <h2>Resultados</h2>
-          <span id="resultsCount">0</span>
-        </div>
-        <div id="resultsList" class="results-list"></div>
-      </section>
     </aside>
 
-    <section class="map-area" aria-label="Mapa de proyectos">
+    <!-- MAPA -->
+    <section class="map-wrap">
       <div id="map"></div>
+
       <div id="loadingOverlay" class="loading-overlay">
-        <div class="loader"></div>
-        <p>Cargando datos...</p>
+        <div class="loading-box">
+          <div class="spinner"></div>
+          <p>Cargando datos...</p>
+        </div>
       </div>
 
-      <section id="mobileSheet" class="mobile-sheet" aria-label="Detalle territorial">
-        <button id="closeSheet" class="close-sheet" aria-label="Cerrar">×</button>
-        <div class="sheet-handle"></div>
+      <section id="mobileSheet" class="mobile-sheet">
+        <button id="closeSheet" class="mobile-sheet-close" aria-label="Cerrar">
+          ×
+        </button>
         <div id="mobileSheetContent"></div>
       </section>
     </section>
+
   </main>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
