@@ -28,7 +28,7 @@
       rgba(5, 20, 45, 0.38) 42%,
       rgba(5, 20, 45, 0.82) 100%
     ),
-    url("../assets/images/moz1.jpg");
+    url("../assets/images/moz1.png");
   background-size: cover;
   background-position: center;
   transform: scale(1.02);
