@@ -1,0 +1,135 @@
+/* ==========================================================
+   CHARTS.CSS
+   Barras, donuts SVG y cronologías simples
+   ========================================================== */
+
+.chart-grid {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.chart-block {
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(248, 250, 252, 0.84);
+  border: 1px solid rgba(17, 24, 39, 0.08);
+}
+
+.chart-block h3 {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 850;
+}
+
+.bar-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 36px;
+  align-items: center;
+  gap: 10px;
+  margin: 9px 0;
+  font-size: 12px;
+  color: #374151;
+}
+
+.bar-label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.bar-track {
+  height: 10px;
+  border-radius: var(--radius-pill);
+  background: rgba(17, 24, 39, 0.08);
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--aecid-red), var(--aecid-yellow));
+  animation: fillBar 1s var(--ease-out) forwards;
+}
+
+.bar-fill.blue {
+  background: linear-gradient(90deg, var(--aecid-blue), #2563eb);
+}
+
+.bar-fill.green {
+  background: linear-gradient(90deg, #16a34a, #34d399);
+}
+
+.bar-fill.purple {
+  background: linear-gradient(90deg, #8e24aa, #c026d3);
+}
+
+.donut-wrap {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+.donut {
+  width: 118px;
+  height: 118px;
+  transform: rotate(-90deg);
+}
+
+.donut circle {
+  fill: none;
+  stroke-width: 12;
+  stroke-linecap: round;
+}
+
+.donut-bg {
+  stroke: rgba(17, 24, 39, 0.08);
+}
+
+.donut-segment {
+  stroke: var(--aecid-red);
+  stroke-dasharray: var(--dash, 280);
+  stroke-dashoffset: var(--dash, 280);
+  animation: drawRing 1s var(--ease-out) forwards;
+}
+
+.timeline {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.timeline-year {
+  min-width: 64px;
+  min-height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-pill);
+  background: rgba(0, 59, 121, 0.08);
+  color: var(--aecid-blue);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.ods-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ods-chip {
+  min-height: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  border-radius: var(--radius-pill);
+  background: var(--aecid-yellow);
+  color: #111827;
+  font-size: 12px;
+  font-weight: 850;
+}

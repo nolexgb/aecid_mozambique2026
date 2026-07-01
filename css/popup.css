@@ -1,0 +1,213 @@
+/* ==========================================================
+   POPUP.CSS
+   Popup premium con glassmorphism y tarjetas de proyecto
+   ========================================================== */
+
+.leaflet-popup-content-wrapper {
+  padding: 0 !important;
+  border-radius: 28px !important;
+  background: rgba(255, 255, 255, 0.86) !important;
+  box-shadow: 0 30px 80px rgba(15, 23, 42, 0.28) !important;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  overflow: hidden;
+}
+
+.leaflet-popup-content {
+  width: 580px !important;
+  max-height: 72vh;
+  margin: 0 !important;
+  overflow-y: auto;
+}
+
+.leaflet-popup-content::-webkit-scrollbar {
+  width: 9px;
+}
+
+.leaflet-popup-content::-webkit-scrollbar-thumb {
+  background: rgba(16, 24, 39, 0.16);
+  border-radius: var(--radius-pill);
+}
+
+.leaflet-popup-tip {
+  background: rgba(255, 255, 255, 0.86) !important;
+}
+
+.leaflet-popup-close-button {
+  width: 38px !important;
+  height: 38px !important;
+  top: 14px !important;
+  right: 14px !important;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.78) !important;
+  color: var(--ink) !important;
+  font-size: 24px !important;
+  line-height: 36px !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.14);
+}
+
+.popup-card {
+  animation: popupEnter 0.38s var(--ease-smooth) both;
+}
+
+.popup-hero {
+  padding: 26px;
+  color: white;
+  background:
+    radial-gradient(circle at 85% 15%, rgba(255, 204, 0, 0.42), transparent 28%),
+    linear-gradient(135deg, var(--aecid-blue), var(--aecid-red));
+}
+
+.popup-kicker {
+  margin: 0 0 12px;
+  color: var(--aecid-yellow);
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.popup-title {
+  margin: 0;
+  font-size: 36px;
+  line-height: 0.95;
+  font-weight: 950;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+}
+
+.popup-subtitle {
+  margin: 10px 0 0;
+  max-width: 440px;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.popup-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.popup-stat {
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.popup-stat strong {
+  display: block;
+  font-size: 20px;
+  font-weight: 950;
+}
+
+.popup-stat span {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.popup-body {
+  padding: 18px;
+}
+
+.project-list {
+  display: grid;
+  gap: 10px;
+}
+
+.project-item {
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 251, 235, 0.62));
+}
+
+.project-item summary {
+  cursor: pointer;
+  padding: 15px 16px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 850;
+  line-height: 1.35;
+}
+
+.project-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.project-number {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--aecid-red), var(--aecid-blue));
+  color: white;
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.project-detail {
+  padding: 0 16px 16px 56px;
+  color: #4b5563;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.project-detail p {
+  margin: 6px 0;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0 10px;
+  border-radius: var(--radius-pill);
+  color: white;
+  font-size: 11px;
+  font-weight: 850;
+}
+
+.badge.bilateral {
+  background: var(--aecid-blue);
+}
+
+.badge.ong {
+  background: #f97316;
+}
+
+.badge.convenio {
+  background: #16a34a;
+}
+
+.badge.innovacion {
+  background: #8e24aa;
+}
+
+.badge.estado {
+  background: #10b981;
+}
+
+.badge.ods {
+  background: var(--aecid-yellow);
+  color: #111827;
+}

@@ -1,0 +1,163 @@
+/* ==========================================================
+   ANIMATIONS.CSS
+   Transiciones, microinteracciones y efectos globales
+   ========================================================== */
+
+@keyframes introFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(34px) scale(0.985);
+    filter: blur(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes cinematicZoom {
+  from {
+    transform: scale(1.02);
+  }
+
+  to {
+    transform: scale(1.12);
+  }
+}
+
+@keyframes redReveal {
+  0% {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  45% {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  55% {
+    transform: scaleX(1);
+    transform-origin: right;
+  }
+
+  100% {
+    transform: scaleX(0);
+    transform-origin: right;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUpSoft {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popupEnter {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+    filter: blur(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes fillBar {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: var(--value, 50%);
+  }
+}
+
+@keyframes drawRing {
+  from {
+    stroke-dashoffset: var(--dash, 280);
+  }
+
+  to {
+    stroke-dashoffset: var(--offset, 80);
+  }
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    box-shadow:
+      0 14px 32px rgba(15, 23, 42, 0.26),
+      0 0 0 7px rgba(255, 255, 255, 0.18);
+  }
+
+  50% {
+    box-shadow:
+      0 20px 44px rgba(15, 23, 42, 0.32),
+      0 0 0 12px rgba(208, 0, 27, 0.2);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-120%);
+  }
+
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s var(--ease-smooth) both;
+}
+
+.slide-up {
+  animation: slideUpSoft 0.55s var(--ease-smooth) both;
+}
+
+.reduced-motion *,
+.reduced-motion *::before,
+.reduced-motion *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+}

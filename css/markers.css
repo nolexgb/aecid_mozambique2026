@@ -1,0 +1,116 @@
+/* ==========================================================
+   MARKERS.CSS
+   Marcadores personalizados y leyenda cromática
+   ========================================================== */
+
+.project-marker {
+  width: var(--size, 46px);
+  height: var(--size, 46px);
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: white;
+  font-weight: 950;
+  font-size: 15px;
+  border: 3px solid rgba(255, 255, 255, 0.94);
+  box-shadow:
+    0 14px 28px rgba(15, 23, 42, 0.28),
+    0 0 0 8px rgba(255, 255, 255, 0.18);
+  transition:
+    transform 0.24s var(--ease-out),
+    box-shadow 0.24s var(--ease-out),
+    filter 0.24s var(--ease-out);
+}
+
+.project-marker:hover,
+.project-marker.active {
+  transform: scale(1.08);
+  box-shadow:
+    0 18px 38px rgba(15, 23, 42, 0.32),
+    0 0 0 12px rgba(208, 0, 27, 0.18);
+  filter: saturate(1.08);
+}
+
+.project-marker.active {
+  animation: pulseGlow 1.8s ease-in-out infinite;
+}
+
+.project-marker small {
+  display: block;
+  margin-top: -2px;
+  font-size: 9px;
+  line-height: 1;
+  opacity: 0.88;
+}
+
+.marker-bilateral {
+  background: linear-gradient(135deg, var(--aecid-blue), #2563eb);
+}
+
+.marker-ong {
+  background: linear-gradient(135deg, #f97316, #fbbf24);
+}
+
+.marker-convenio {
+  background: linear-gradient(135deg, #16a34a, #34d399);
+}
+
+.marker-innovacion {
+  background: linear-gradient(135deg, #8e24aa, #c026d3);
+}
+
+.marker-default {
+  background: linear-gradient(135deg, #6b7280, #9ca3af);
+}
+
+.dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.dot.bilateral {
+  background: var(--aecid-blue);
+}
+
+.dot.ong {
+  background: #f59e0b;
+}
+
+.dot.convenio {
+  background: #10b981;
+}
+
+.dot.innovacion {
+  background: #8e24aa;
+}
+
+.dot.default {
+  background: #9ca3af;
+}
+
+.leaflet-tooltip {
+  border: none !important;
+  border-radius: 16px !important;
+  background: rgba(255, 255, 255, 0.92) !important;
+  box-shadow: var(--shadow) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: var(--ink) !important;
+  padding: 12px 14px !important;
+}
+
+.map-tooltip strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--aecid-red);
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.map-tooltip span {
+  display: block;
+  color: #374151;
+  font-size: 12px;
+}

@@ -1,0 +1,124 @@
+/* ==========================================================
+   VARIABLES.CSS
+   Identidad visual, tipografía, espaciados y tokens globales
+   ========================================================== */
+
+@font-face {
+  font-family: "Google Sans Flex";
+  src: url("../assets/fonts/GoogleSansFlex_120pt-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Google Sans Flex";
+  src: url("../assets/fonts/GoogleSansFlex_120pt-SemiBold.ttf") format("truetype");
+  font-weight: 650;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Google Sans Flex";
+  src: url("../assets/fonts/GoogleSansFlex_120pt-ExtraBold.ttf") format("truetype");
+  font-weight: 850;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Google Sans Flex";
+  src: url("../assets/fonts/GoogleSansFlex_72pt-Black.ttf") format("truetype");
+  font-weight: 950;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --aecid-red: #d0001b;
+  --aecid-red-dark: #9b0014;
+  --aecid-yellow: #ffcc00;
+  --aecid-blue: #003b79;
+
+  --blue: #2563eb;
+  --orange: #f97316;
+  --green: #16a34a;
+  --purple: #8e24aa;
+  --gray: #6b7280;
+
+  --ink: #101827;
+  --ink-soft: #263244;
+  --muted: #667085;
+  --line: rgba(16, 24, 39, 0.12);
+  --line-strong: rgba(16, 24, 39, 0.2);
+
+  --bg: #f4f6f8;
+  --white: #ffffff;
+
+  --glass: rgba(255, 255, 255, 0.72);
+  --glass-strong: rgba(255, 255, 255, 0.9);
+  --glass-dark: rgba(0, 24, 54, 0.5);
+
+  --shadow-sm: 0 10px 24px rgba(15, 23, 42, 0.08);
+  --shadow: 0 22px 60px rgba(15, 23, 42, 0.16);
+  --shadow-lg: 0 34px 90px rgba(15, 23, 42, 0.28);
+
+  --radius-sm: 14px;
+  --radius: 22px;
+  --radius-lg: 30px;
+  --radius-pill: 999px;
+
+  --header-height: 150px;
+  --sidebar-width: 410px;
+
+  --font-main: "Google Sans Flex", "Inter", "Segoe UI", Arial, sans-serif;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  font-family: var(--font-main);
+  background: var(--bg);
+  color: var(--ink);
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  overflow: hidden;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
