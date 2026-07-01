@@ -25,6 +25,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   let activeFilter = "all";
   const markerLayer = L.layerGroup().addTo(map);
 
+  function normalizeHeader(header) {
+    return String(header || "")
+      .trim()
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/\s+/g, "_");
+  }
+
   function parseCSV(text) {
     const rows = [];
     let row = [];
@@ -70,12 +79,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!rows.length) return [];
 
-    const headers = rows[0].map(header =>
-      String(header)
-        .trim()
-        .toLowerCase()
-        .replace(/\s+/g, "")
-    );
+    const headers = rows[0].map(normalizeHeader);
 
     return rows.slice(1).map(row => {
       const item = {};
@@ -126,13 +130,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     ) || 0;
   }
 
+  function isVisible(row) {
+    const visible = String(row.visible_mapa || "").trim().toLowerCase();
+
+    return visible === "sí" || visible === "si";
+  }
+
   function groupRowsByLocation(rows) {
     const grouped = {};
 
     rows.forEach(row => {
-      const name = row.name || row.localizacion || row.localización || row.provincia;
-      const lat = toNumber(row.lat || row.latitude || row.latitud);
-      const lng = toNumber(row.lng || row.lon || row.long || row.longitude || row.longitud);
+      if (!isVisible(row)) return;
+
+      const name = row.ambito || row.provincia || row.localidad || "Sin localización";
+      const lat = toNumber(row.latitud);
+      const lng = toNumber(row.longitud);
 
       if (!name || lat === null || lng === null) return;
 
@@ -146,11 +158,20 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
 
       grouped[name].projects.push({
-        title: row.title || row.titulo || row.título || "Proyecto sin título",
-        year: row.year || row.año || row.ano || "",
-        partners: row.partners || row.socios || row.socio || row.entidad || "",
-        amount: row.amount || row.importe || row.monto || "",
-        modality: row.modality || row.modalidad || row.instrumento || ""
+        id: row.id || "",
+        title: row.proyecto || "Proyecto sin título",
+        year: row.ano || "",
+        partners: row.socios || "",
+        sector: row.sector || "",
+        subsector: row.subsector || "",
+        amount: row.importe_eur || "",
+        modality: row.modalidad || "",
+        estado: row.estado || "",
+        ods: row.ods || "",
+        beneficiarios: row.beneficiarios || "",
+        provincia: row.provincia || "",
+        distrito: row.distrito || "",
+        localidad: row.localidad || ""
       });
     });
 
@@ -176,10 +197,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function getAllProjects() {
-    if (!Array.isArray(data)) return [];
-
     return data.flatMap(location =>
-      (location.projects || []).map(project => ({
+      location.projects.map(project => ({
         ...project,
         location: location.name,
         lat: location.lat,
@@ -198,11 +217,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function getFilteredLocations() {
-    if (!Array.isArray(data)) return [];
-
     return data
       .map(location => {
-        const projects = (location.projects || [])
+        const projects = location.projects
           .map(project => ({
             ...project,
             normalizedModality: normalizeModality(project.modality)
@@ -218,6 +235,43 @@ document.addEventListener("DOMContentLoaded", async () => {
         };
       })
       .filter(location => location.projects.length > 0);
+  }
+
+  function getProvinceText(projects) {
+    const provinces = new Set();
+    let hasNational = false;
+
+    projects.forEach(project => {
+      const province = String(project.provincia || "").trim();
+
+      if (!province) return;
+
+      if (province.toLowerCase() === "nacional") {
+        hasNational = true;
+        return;
+      }
+
+      if (province.toLowerCase().includes("norte") || province.toLowerCase().includes("sur")) {
+        return;
+      }
+
+      province.split("/").forEach(part => {
+        const clean = part.trim();
+        if (clean) provinces.add(clean);
+      });
+    });
+
+    const count = provinces.size;
+
+    if (hasNational && count > 0) {
+      return `${count} provincias + ámbito nacional`;
+    }
+
+    if (count > 0) {
+      return `${count} provincias`;
+    }
+
+    return "—";
   }
 
   function updateKpis() {
@@ -240,7 +294,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     if (kpis[1]) {
-      kpis[1].textContent = "6 + ámbito nacional";
+      kpis[1].textContent = getProvinceText(projects);
     }
 
     if (kpis[2]) {
@@ -304,13 +358,17 @@ document.addEventListener("DOMContentLoaded", async () => {
         <details class="project">
           <summary>
             <span class="project-number">${index + 1}</span>
-            ${project.title || "Proyecto sin título"}
+            ${project.title}
           </summary>
 
           <div class="project-body">
             <p><strong>Año:</strong> ${project.year || "—"}</p>
             <p><strong>Socio / entidad:</strong> ${project.partners || "—"}</p>
+            <p><strong>Sector:</strong> ${project.sector || "—"}</p>
+            <p><strong>Subsector:</strong> ${project.subsector || "—"}</p>
             <p><strong>Importe:</strong> ${project.amount || "—"}</p>
+            <p><strong>Estado:</strong> ${project.estado || "—"}</p>
+            <p><strong>ODS:</strong> ${project.ods || "—"}</p>
 
             <span class="modality-badge" style="background:${color}">
               ${project.modality || "Sin modalidad"}
