@@ -31,10 +31,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     setLoading(false);
 
-    startAutoRefresh(updatedData => {
-      setData(updatedData);
-      renderMap(getFilteredLocations());
-      refreshUI(getFilteredProjects());
+    stsetupAutoRefresh(updatedData => {
+  setData(updatedData);
+  renderMap(getFilteredLocations());
+  refreshUI(getFilteredProjects());
     });
 
     window.addEventListener("introFinished", () => {
