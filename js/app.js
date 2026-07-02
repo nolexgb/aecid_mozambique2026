@@ -4,7 +4,7 @@
    ========================================================== */
 
 import { initIntro } from "./intro.js";
-import { loadProjects, startAutoRefresh } from "./sheets.js";
+import { loadProjects, setupAutoRefresh } from "./sheets.js";
 import { initMap, renderMap } from "./map.js";
 import { initFilters } from "./filters.js";
 import { initSearch } from "./search.js";
