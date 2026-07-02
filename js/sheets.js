@@ -5,7 +5,7 @@
    + fallback local
    ========================================================== */
 
-import CONFIG from "./config.js";
+import CONFIG from "../data/config.js";
 import FALLBACK from "../data/fallback.js";
 
 import {
